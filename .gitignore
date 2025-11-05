@@ -1,0 +1,59 @@
+# Python virtual environment and cache
+.venv/
+/.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE and system files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Result and output folders
+result_Clindau/
+result_FD/
+result_FDD/
+result_FZ/
+result/
+comparison_baseline_vs_fifo/
+
+# Model checkpoints and weights (heavy files)
+*.pth
+*.ckpt
+*.h5
+*.pkl
+*.bin
+snapshots/
+checkpoints/
+weights/
+saved_models/
+
+# Dataset folders (typically large)
+data/
+datasets/
+dataset/cityscapes/
+dataset/foggy_cityscapes/
+dataset/foggy_zurich/
+
+# Logs and monitoring
+logs/
+*.log
+wandb/
+runs/
+tensorboard/
+
+# Temporary and build artifacts
+*.egg-info/
+dist/
+build/
+.pytest_cache/
