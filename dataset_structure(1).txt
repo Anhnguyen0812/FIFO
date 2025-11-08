@@ -1,0 +1,171 @@
+📁 cityscapes-filtered-fog/ (0 files)
+   📁 foggy_filtered/ (0 files)
+      📁 foggy_data/ (0 files)
+         📁 leftImg8bit_foggy/ (0 files)
+            📁 train/ (0 files)
+               📁 aachen/ (522 files)
+                  └─ 📄 aachen_000000_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 aachen_000000_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 aachen_000000_000019_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 aachen_000001_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 aachen_000001_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+517 files)
+               📁 bochum/ (288 files)
+                  └─ 📄 bochum_000000_000313_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 bochum_000000_000313_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 bochum_000000_000313_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 bochum_000000_000600_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 bochum_000000_000600_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+283 files)
+               📁 bremen/ (948 files)
+                  └─ 📄 bremen_000000_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 bremen_000000_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 bremen_000000_000019_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 bremen_000001_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 bremen_000001_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+943 files)
+               📁 zurich/ (366 files)
+                  └─ 📄 zurich_000000_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 zurich_000000_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 zurich_000000_000019_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 zurich_000001_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 zurich_000001_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+361 files)
+            📁 val/ (0 files)
+               📁 frankfurt/ (801 files)
+                  └─ 📄 frankfurt_000000_000294_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 frankfurt_000000_000294_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 frankfurt_000000_000294_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 frankfurt_000000_000576_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 frankfurt_000000_000576_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+796 files)
+               📁 lindau/ (177 files)
+                  └─ 📄 lindau_000000_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 lindau_000000_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 lindau_000000_000019_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 lindau_000001_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 lindau_000001_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+172 files)
+               📁 munster/ (522 files)
+                  └─ 📄 munster_000000_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 munster_000000_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ 📄 munster_000000_000019_leftImg8bit_foggy_beta_0.02.png
+                  └─ 📄 munster_000001_000019_leftImg8bit_foggy_beta_0.005.png
+                  └─ 📄 munster_000001_000019_leftImg8bit_foggy_beta_0.01.png
+                  └─ … (+517 files)
+   📁 gtFine_filtered/ (0 files)
+      📁 gtFine_data/ (0 files)
+         📁 gtFine/ (0 files)
+            📁 train/ (0 files)
+               📁 aachen/ (696 files)
+                  └─ 📄 aachen_000000_000019_gtFine_color.png
+                  └─ 📄 aachen_000000_000019_gtFine_instanceIds.png
+                  └─ 📄 aachen_000000_000019_gtFine_labelIds.png
+                  └─ 📄 aachen_000000_000019_gtFine_polygons.json
+                  └─ 📄 aachen_000001_000019_gtFine_color.png
+                  └─ … (+691 files)
+               📁 bochum/ (384 files)
+                  └─ 📄 bochum_000000_000313_gtFine_color.png
+                  └─ 📄 bochum_000000_000313_gtFine_instanceIds.png
+                  └─ 📄 bochum_000000_000313_gtFine_labelIds.png
+                  └─ 📄 bochum_000000_000313_gtFine_polygons.json
+                  └─ 📄 bochum_000000_000600_gtFine_color.png
+                  └─ … (+379 files)
+               📁 bremen/ (1264 files)
+                  └─ 📄 bremen_000000_000019_gtFine_color.png
+                  └─ 📄 bremen_000000_000019_gtFine_instanceIds.png
+                  └─ 📄 bremen_000000_000019_gtFine_labelIds.png
+                  └─ 📄 bremen_000000_000019_gtFine_polygons.json
+                  └─ 📄 bremen_000001_000019_gtFine_color.png
+                  └─ … (+1259 files)
+               📁 zurich/ (488 files)
+                  └─ 📄 zurich_000000_000019_gtFine_color.png
+                  └─ 📄 zurich_000000_000019_gtFine_instanceIds.png
+                  └─ 📄 zurich_000000_000019_gtFine_labelIds.png
+                  └─ 📄 zurich_000000_000019_gtFine_polygons.json
+                  └─ 📄 zurich_000001_000019_gtFine_color.png
+                  └─ … (+483 files)
+            📁 val/ (0 files)
+               📁 frankfurt/ (1068 files)
+                  └─ 📄 frankfurt_000000_000294_gtFine_color.png
+                  └─ 📄 frankfurt_000000_000294_gtFine_instanceIds.png
+                  └─ 📄 frankfurt_000000_000294_gtFine_labelIds.png
+                  └─ 📄 frankfurt_000000_000294_gtFine_polygons.json
+                  └─ 📄 frankfurt_000000_000576_gtFine_color.png
+                  └─ … (+1063 files)
+               📁 lindau/ (236 files)
+                  └─ 📄 lindau_000000_000019_gtFine_color.png
+                  └─ 📄 lindau_000000_000019_gtFine_instanceIds.png
+                  └─ 📄 lindau_000000_000019_gtFine_labelIds.png
+                  └─ 📄 lindau_000000_000019_gtFine_polygons.json
+                  └─ 📄 lindau_000001_000019_gtFine_color.png
+                  └─ … (+231 files)
+               📁 munster/ (696 files)
+                  └─ 📄 munster_000000_000019_gtFine_color.png
+                  └─ 📄 munster_000000_000019_gtFine_instanceIds.png
+                  └─ 📄 munster_000000_000019_gtFine_labelIds.png
+                  └─ 📄 munster_000000_000019_gtFine_polygons.json
+                  └─ 📄 munster_000001_000019_gtFine_color.png
+                  └─ … (+691 files)
+   📁 leftImg8bit_filtered/ (0 files)
+      📁 leftImg8bit_data/ (0 files)
+         📁 leftImg8bit/ (0 files)
+            📁 train/ (0 files)
+               📁 aachen/ (174 files)
+                  └─ 📄 aachen_000000_000019_leftImg8bit.png
+                  └─ 📄 aachen_000001_000019_leftImg8bit.png
+                  └─ 📄 aachen_000002_000019_leftImg8bit.png
+                  └─ 📄 aachen_000003_000019_leftImg8bit.png
+                  └─ 📄 aachen_000004_000019_leftImg8bit.png
+                  └─ … (+169 files)
+               📁 bochum/ (96 files)
+                  └─ 📄 bochum_000000_000313_leftImg8bit.png
+                  └─ 📄 bochum_000000_000600_leftImg8bit.png
+                  └─ 📄 bochum_000000_000885_leftImg8bit.png
+                  └─ 📄 bochum_000000_001097_leftImg8bit.png
+                  └─ 📄 bochum_000000_001519_leftImg8bit.png
+                  └─ … (+91 files)
+               📁 bremen/ (316 files)
+                  └─ 📄 bremen_000000_000019_leftImg8bit.png
+                  └─ 📄 bremen_000001_000019_leftImg8bit.png
+                  └─ 📄 bremen_000002_000019_leftImg8bit.png
+                  └─ 📄 bremen_000003_000019_leftImg8bit.png
+                  └─ 📄 bremen_000004_000019_leftImg8bit.png
+                  └─ … (+311 files)
+               📁 zurich/ (122 files)
+                  └─ 📄 zurich_000000_000019_leftImg8bit.png
+                  └─ 📄 zurich_000001_000019_leftImg8bit.png
+                  └─ 📄 zurich_000002_000019_leftImg8bit.png
+                  └─ 📄 zurich_000003_000019_leftImg8bit.png
+                  └─ 📄 zurich_000004_000019_leftImg8bit.png
+                  └─ … (+117 files)
+            📁 val/ (0 files)
+               📁 frankfurt/ (267 files)
+                  └─ 📄 frankfurt_000000_000294_leftImg8bit.png
+                  └─ 📄 frankfurt_000000_000576_leftImg8bit.png
+                  └─ 📄 frankfurt_000000_001016_leftImg8bit.png
+                  └─ 📄 frankfurt_000000_001236_leftImg8bit.png
+                  └─ 📄 frankfurt_000000_001751_leftImg8bit.png
+                  └─ … (+262 files)
+               📁 lindau/ (59 files)
+                  └─ 📄 lindau_000000_000019_leftImg8bit.png
+                  └─ 📄 lindau_000001_000019_leftImg8bit.png
+                  └─ 📄 lindau_000002_000019_leftImg8bit.png
+                  └─ 📄 lindau_000003_000019_leftImg8bit.png
+                  └─ 📄 lindau_000004_000019_leftImg8bit.png
+                  └─ … (+54 files)
+               📁 munster/ (174 files)
+                  └─ 📄 munster_000000_000019_leftImg8bit.png
+                  └─ 📄 munster_000001_000019_leftImg8bit.png
+                  └─ 📄 munster_000002_000019_leftImg8bit.png
+                  └─ 📄 munster_000003_000019_leftImg8bit.png
+                  └─ 📄 munster_000004_000019_leftImg8bit.png
+                  └─ … (+169 files)
+   📁 realfog_filtered_2gb/ (0 files)
+      📁 RGB/ (837 files)
+         └─ 📄 1508039851.0_start_01m00s_frame_000007.png
+         └─ 📄 1508039851.0_start_01m00s_frame_000016.png
+         └─ 📄 1508039851.0_start_01m00s_frame_000017.png
+         └─ 📄 1508039851.0_start_01m00s_frame_000018.png
+         └─ 📄 1508039851.0_start_01m00s_frame_000019.png
+         └─ … (+832 files)
