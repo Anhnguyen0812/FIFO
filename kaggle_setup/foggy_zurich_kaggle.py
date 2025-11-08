@@ -11,7 +11,7 @@ from os.path import join
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 
-class FoggyZurich_Kaggle(data.Dataset):
+class FoggyZurich(data.Dataset):
     """
     Dataset class cho Real Fog (Foggy Zurich) trên Kaggle
     """

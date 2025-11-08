@@ -11,7 +11,7 @@ from os.path import join
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 
-class Pairedcityscapes_Kaggle(data.Dataset):
+class Pairedcityscapes(data.Dataset):
     """
     Dataset class cho Kaggle với cấu trúc dataset đã upload
     """
