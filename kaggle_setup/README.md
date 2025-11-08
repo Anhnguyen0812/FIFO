@@ -2,27 +2,56 @@
 
 📦 Thư mục này chứa tất cả files cần thiết để chạy FIFO trên Kaggle
 
-## 📁 Cấu trúc Files
+---
+
+## ⚠️ QUAN TRỌNG - ĐỌC TRƯỚC KHI BẮT ĐẦU
+
+### � Đã Fix 3 Lỗi Chính:
+1. ✅ ModuleNotFoundError: densetorch
+2. ✅ NumPy 2.x compatibility 
+3. ✅ FileNotFoundError: 'no_model'
+
+**👉 ĐỌC FILE NÀY TRƯỚC**: `ALL_FIXES.md`
+
+---
+
+## �📁 Cấu trúc Files
 
 ```
 kaggle_setup/
 ├── README.md                           # File này
-├── KAGGLE_NOTEBOOK_SETUP.md           # ⭐ HƯỚNG DẪN CHÍNH - ĐỌC ĐẦU TIÊN
-├── HUONG_DAN_KAGGLE.md                # Hướng dẫn chi tiết tiếng Việt
+│
+├── 📖 MAIN GUIDES
+├── ALL_FIXES.md                        # ⭐ ĐỌC ĐẦU TIÊN - Tất cả fixes
+├── KAGGLE_NOTEBOOK_SETUP.md           # Hướng dẫn chi tiết từng cell
 ├── QUICKSTART.md                      # Quick reference
+├── SUMMARY.md                         # Tóm tắt nhanh
 │
-├── train_config_kaggle.py             # Config cho full training
-├── train_config_kaggle_test.py        # Config cho test 5 ảnh
+├── 🔧 FIX GUIDES
+├── FIX_DENSETORCH_ERROR.md            # Fix: densetorch missing
+├── FIX_NUMPY_ERROR.md                 # Fix: NumPy version conflict
+├── FIX_RESTORE_FROM_ERROR.md          # Fix: 'no_model' error
 │
+├── ⚙️ CONFIG FILES  
+├── train_config_kaggle.py             # Config cho full training (đã fix)
+├── train_config_kaggle_test.py        # Config cho test 5 ảnh (đã fix)
+│
+├── 📦 DATASET CLASSES
 ├── paired_cityscapes_kaggle.py        # Dataset class cho paired images
 ├── foggy_zurich_kaggle.py             # Dataset class cho real fog
 ├── main_kaggle.py                     # Main training script (backup)
 │
-├── setup_and_train_test.sh            # Script auto test
-├── setup_and_train_full.sh            # Script auto full training
+├── 🛠️ SCRIPTS
+├── setup_and_train_test.sh            # Script auto test (đã fix)
+├── setup_and_train_full.sh            # Script auto full training (đã fix)
 ├── verify_setup.sh                    # Script kiểm tra setup
+├── show_help.sh                       # Quick help
 │
-└── requirements.txt                   # Dependencies
+├── 📝 OTHERS
+├── requirements.txt                   # Dependencies (đã fix)
+├── KAGGLE_CELLS_SCRIPT.py            # Script từng cell (đã fix)
+├── FIFO_Kaggle_Test_Template.ipynb   # Notebook template
+└── UPDATE_LOG.md                      # Update history
 ```
 
 ---
