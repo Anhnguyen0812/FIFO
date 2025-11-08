@@ -73,8 +73,9 @@ class foggyzurichDataSet(data.Dataset):
 
         # Parse file paths cho real fog images
         for name in self.img_ids:
-            # name format: RGB/1508039851.0_start_01m00s_frame_000007.png
-            img_file = osp.join(self.root, "realfog_filtered_2gb/%s" % (name))
+            # name format: 1508039851.0_start_01m00s_frame_000007.png (without RGB/ prefix)
+            # Structure: realfog_filtered_2gb/RGB/*.png
+            img_file = osp.join(self.root, "realfog_filtered_2gb/RGB/%s" % (name))
             self.files.append({
                 "img": img_file,
                 "name": name
