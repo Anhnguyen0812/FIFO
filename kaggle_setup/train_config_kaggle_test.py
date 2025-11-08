@@ -29,8 +29,8 @@ NUM_CLASSES = 19
 NUM_STEPS = 50  # Chỉ chạy 50 steps để test
 NUM_STEPS_STOP = 50
 RANDOM_SEED = 1234
-RESTORE_FROM = 'no_model'
-RESTORE_FROM_fogpass = 'no_model'
+RESTORE_FROM = 'without_pretraining'
+RESTORE_FROM_fogpass = 'without_pretraining'
 SAVE_PRED_EVERY = 10  # Lưu mỗi 10 steps để kiểm tra
 
 # Đường dẫn lưu snapshots

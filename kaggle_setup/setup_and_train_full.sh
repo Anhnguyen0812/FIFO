@@ -32,7 +32,9 @@ cp /kaggle/working/fifo/kaggle_setup/train_config_kaggle.py /kaggle/working/fifo
 
 # Install dependencies
 echo "Installing dependencies..."
+pip install "numpy<2.0"
 pip install wandb pytorch-metric-learning tqdm
+pip install git+https://github.com/drsleep/DenseTorch.git
 
 # Login wandb (cần thay YOUR_WANDB_KEY)
 echo "Setting up Wandb..."

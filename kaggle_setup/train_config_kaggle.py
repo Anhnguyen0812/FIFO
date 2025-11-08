@@ -31,8 +31,8 @@ NUM_CLASSES = 19
 NUM_STEPS = 100000 
 NUM_STEPS_STOP = 60000  # early stopping
 RANDOM_SEED = 1234
-RESTORE_FROM = 'no_model'
-RESTORE_FROM_fogpass = 'no_model'
+RESTORE_FROM = 'without_pretraining'
+RESTORE_FROM_fogpass = 'without_pretraining'
 SAVE_PRED_EVERY = 5000
 
 # Đường dẫn lưu snapshots - Kaggle working directory
