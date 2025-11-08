@@ -157,7 +157,7 @@ print("="*80)
 print("STARTING STAGE 1: FogPassFilter Training (20K steps)")
 print("="*80)
 
-!python main.py
+!python main.py --file-name "full_training" --modeltrain "fogpass"
 
 # ==============================================================================
 # CELL 9: Monitor training (optional - run in separate notebook)
@@ -182,7 +182,7 @@ print("STARTING STAGE 2: Full Model Training (60K steps)")
 print("="*80)
 
 # Stage 2 will automatically load Stage 1 checkpoint and continue
-!python main.py
+!python main.py --file-name "full_training" --modeltrain "fogpass"
 
 print("\n✅ Training completed!")
 print("📁 Check snapshots/ for saved models")

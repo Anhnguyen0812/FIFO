@@ -58,7 +58,7 @@ print("✅ Config updated!")
 ```python
 # Cell 4: Train!
 os.chdir('/kaggle/working/fifo')
-!python main.py
+!python main.py --file-name "full_training" --modeltrain "fogpass"
 ```
 
 ---
@@ -195,7 +195,7 @@ Make sure using T4 x2 in Kaggle settings.
 - [ ] Copy config files
 - [ ] Update config to use full dataset
 - [ ] Verify all paths and file counts
-- [ ] Start training with `python main.py`
+- [ ] Start training with `python main.py --file-name "full_training" --modeltrain "fogpass"`
 - [ ] Monitor progress and checkpoints
 - [ ] Wait ~24 hours for completion
 - [ ] Download final model (FIFO_60000.pth)
