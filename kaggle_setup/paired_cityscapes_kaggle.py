@@ -84,7 +84,7 @@ class Pairedcityscapes(data.Dataset):
             clear_name = name.replace('_leftImg8bit_foggy_beta_0.005.png', '_leftImg8bit.png')
             trg_img_file = osp.join(
                 self.trg_root,
-                "leftImg8bit_filtered/leftImg8bit_data/leftImg8bit/%s/%s" % (self.set, clear_name)
+                "leftImg8bit/%s/%s" % (self.set, clear_name)
             )
             
             # Label path
