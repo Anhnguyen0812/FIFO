@@ -97,7 +97,7 @@ def main():
     w, h = map(int, args.input_size.split(','))
     input_size = (w, h)
 
-    w_r, h_r = map(int, args.input_size_rf.split(',')) 
+    w_r, h_r = map(int, args.input_size_rf.split(','))
     input_size_rf = (w_r, h_r)   
 
     cudnn.enabled = True
@@ -108,7 +108,7 @@ def main():
         model = rf_lw101(num_classes=args.num_classes)
  
     else:
-        restore = torch.load(args.restore_from)
+        restore = torch.load(args.restore_from, weights_only=False)
         model = rf_lw101(num_classes=args.num_classes)
 
         model.load_state_dict(restore['state_dict'])
