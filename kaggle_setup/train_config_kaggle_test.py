@@ -6,7 +6,7 @@ import numpy as np
 
 IMG_MEAN = np.array((104.00698793, 116.66876762, 122.67891434), dtype=np.float32)
 BETA = 0.005
-BATCH_SIZE = 1  # Giảm batch size cho test
+BATCH_SIZE = 4  # Code yêu cầu batch_size=4 (hardcoded indices 0,1,2,3)
 ITER_SIZE = 1
 NUM_WORKERS = 2  # Giảm num workers
 
