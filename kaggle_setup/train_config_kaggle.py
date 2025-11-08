@@ -7,7 +7,7 @@ import numpy as np
 
 IMG_MEAN = np.array((104.00698793, 116.66876762, 122.67891434), dtype=np.float32)
 BETA = 0.005
-BATCH_SIZE = 8  # For T4 x2 (4 per GPU). Use 4 for single GPU.
+BATCH_SIZE = 4  # Single GPU (P100 or T4)
 ITER_SIZE = 1
 NUM_WORKERS = 4
 

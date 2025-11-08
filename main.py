@@ -117,13 +117,6 @@ def main():
 
     model.train()
     model.cuda(args.gpu)
-    
-    # Enable multi-GPU training if available
-    if torch.cuda.device_count() > 1:
-        print(f"Using {torch.cuda.device_count()} GPUs for training")
-        model = torch.nn.DataParallel(model)
-    else:
-        print("Using single GPU for training")
 
     lr_fpf1 = 1e-3 
     lr_fpf2 = 1e-3
@@ -134,25 +127,14 @@ def main():
     FogPassFilter1 = FogPassFilter_conv1(2080)
     FogPassFilter1_optimizer = torch.optim.Adamax([p for p in FogPassFilter1.parameters() if p.requires_grad == True], lr=lr_fpf1)
     FogPassFilter1.cuda(args.gpu)
-    
     FogPassFilter2 = FogPassFilter_res1(32896)
     FogPassFilter2_optimizer = torch.optim.Adamax([p for p in FogPassFilter2.parameters() if p.requires_grad == True], lr=lr_fpf2)
     FogPassFilter2.cuda(args.gpu)
-    
-    # Enable multi-GPU for FogPassFilters
-    if torch.cuda.device_count() > 1:
-        FogPassFilter1 = torch.nn.DataParallel(FogPassFilter1)
-        FogPassFilter2 = torch.nn.DataParallel(FogPassFilter2)
 
     if args.restore_from_fogpass != RESTORE_FROM_fogpass:
         restore = torch.load(args.restore_from_fogpass, weights_only=False)
-        # Handle DataParallel wrapped models
-        if torch.cuda.device_count() > 1:
-            FogPassFilter1.module.load_state_dict(restore['fogpass1_state_dict'])
-            FogPassFilter2.module.load_state_dict(restore['fogpass2_state_dict'])
-        else:
-            FogPassFilter1.load_state_dict(restore['fogpass1_state_dict'])
-            FogPassFilter2.load_state_dict(restore['fogpass2_state_dict'])
+        FogPassFilter1.load_state_dict(restore['fogpass1_state_dict'])
+        FogPassFilter2.load_state_dict(restore['fogpass2_state_dict'])
 
     fogpassfilter_loss = losses.ContrastiveLoss(
         pos_margin=0.1,
@@ -446,20 +428,13 @@ def main():
 
         if i_iter >= args.num_steps_stop - 1:
             print('save model ..')
-            # Handle DataParallel models
-            model_state = model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict()
-            torch.save(model_state, osp.join(args.snapshot_dir, args.file_name + str(args.num_steps_stop) + '.pth'))
+            torch.save(model.state_dict(), osp.join(args.snapshot_dir, args.file_name + str(args.num_steps_stop) + '.pth'))
             break
         if args.modeltrain != 'train':
             if i_iter == 5000:
-                # Handle DataParallel models
-                model_state = model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict()
-                fpf1_state = FogPassFilter1.module.state_dict() if isinstance(FogPassFilter1, torch.nn.DataParallel) else FogPassFilter1.state_dict()
-                fpf2_state = FogPassFilter2.module.state_dict() if isinstance(FogPassFilter2, torch.nn.DataParallel) else FogPassFilter2.state_dict()
-                
-                torch.save({'state_dict':model_state,
-                'fogpass1_state_dict':fpf1_state,
-                'fogpass2_state_dict':fpf2_state,
+                torch.save({'state_dict':model.state_dict(),
+                'fogpass1_state_dict':FogPassFilter1.state_dict(),
+                'fogpass2_state_dict':FogPassFilter2.state_dict(),
                 'train_iter':i_iter,
                 'args':args
                 },osp.join(args.snapshot_dir, run_name)+'_fogpassfilter_'+str(i_iter)+'.pth')
@@ -471,15 +446,10 @@ def main():
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
             
-            # Handle DataParallel models
-            model_state = model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict()
-            fpf1_state = FogPassFilter1.module.state_dict() if isinstance(FogPassFilter1, torch.nn.DataParallel) else FogPassFilter1.state_dict()
-            fpf2_state = FogPassFilter2.module.state_dict() if isinstance(FogPassFilter2, torch.nn.DataParallel) else FogPassFilter2.state_dict()
-            
             torch.save({
-                'state_dict':model_state,
-                'fogpass1_state_dict':fpf1_state,
-                'fogpass2_state_dict':fpf2_state,
+                'state_dict':model.state_dict(),
+                'fogpass1_state_dict':FogPassFilter1.state_dict(),
+                'fogpass2_state_dict':FogPassFilter2.state_dict(),
                 'train_iter':i_iter,
                 'args':args
             },osp.join(args.snapshot_dir, run_name)+'_FIFO'+str(i_iter)+'.pth')
