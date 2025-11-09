@@ -80,6 +80,22 @@ def main():
     """Create the model and start the training."""
 
     args = get_arguments()
+    
+    # Handle lambda parameters (support both float and dict)
+    if isinstance(args.lambda_fsm, dict):
+        lambda_fsm = sum(args.lambda_fsm.values())  # Sum all weights
+    else:
+        lambda_fsm = args.lambda_fsm
+    
+    if isinstance(args.lambda_con, dict):
+        lambda_con = sum(args.lambda_con.values())  # Sum all weights
+    else:
+        lambda_con = args.lambda_con
+    
+    # Override args with computed values
+    args.lambda_fsm = lambda_fsm
+    args.lambda_con = lambda_con
+    
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
     random.seed(args.random_seed)
