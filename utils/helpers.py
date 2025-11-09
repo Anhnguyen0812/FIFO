@@ -10,6 +10,7 @@ def maybe_download(model_name, model_url, model_dir=None, map_location=None):
     import os
     import sys
     from six.moves import urllib
+    from packaging import version
 
     if model_dir is None:
         torch_home = os.path.expanduser(os.getenv("TORCH_HOME", "~/.torch"))
@@ -22,7 +23,12 @@ def maybe_download(model_name, model_url, model_dir=None, map_location=None):
         url = model_url
         sys.stderr.write('Downloading: "{}" to {}\n'.format(url, cached_file))
         urllib.request.urlretrieve(url, cached_file)
-    return torch.load(cached_file, map_location=map_location, weights_only=False)
+    
+    # Use weights_only only if PyTorch version >= 2.6
+    if version.parse(torch.__version__) >= version.parse('2.6.0'):
+        return torch.load(cached_file, map_location=map_location, weights_only=False)
+    else:
+        return torch.load(cached_file, map_location=map_location)
 
 
 def prepare_img(img):

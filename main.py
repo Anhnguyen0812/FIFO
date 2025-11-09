@@ -428,7 +428,14 @@ def main():
 
         if i_iter >= args.num_steps_stop - 1:
             print('save model ..')
-            torch.save(model.state_dict(), osp.join(args.snapshot_dir, args.file_name + str(args.num_steps_stop) + '.pth'))
+            # Save full model including FogPassFilter
+            torch.save({
+                'state_dict': model.state_dict(),
+                'fogpass1_state_dict': FogPassFilter1.state_dict(),
+                'fogpass2_state_dict': FogPassFilter2.state_dict(),
+                'train_iter': i_iter,
+                'args': args
+            }, osp.join(args.snapshot_dir, args.file_name + str(args.num_steps_stop) + '.pth'))
             break
         if args.modeltrain != 'train':
             if i_iter == 5000:

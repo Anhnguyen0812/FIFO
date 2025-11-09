@@ -17,7 +17,6 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from model.refinenetlw import rf_lw101
-from model.fogpassfilter import FogPassFilter_conv1, FogPassFilter_res1
 from compute_iou import compute_mIoU
 from configs.test_config import get_arguments
 from dataset.cityscapes_dataset import cityscapesDataSet
@@ -34,6 +33,7 @@ zero_pad = 256 * 3 - len(palette)
 for i in range(zero_pad):
     palette.append(0)
 
+
 def colorize_mask(mask):
     new_mask = Image.fromarray(mask.astype(np.uint8)).convert('P')
     new_mask.putpalette(palette)
@@ -42,38 +42,27 @@ def colorize_mask(mask):
 def eval():
     """Create the model and start the evaluation process."""
     args = get_arguments()
-
+    
     # Detect device (CPU or GPU)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
-    
-    # Initialize model
-    model = rf_lw101(num_classes=args.num_classes)
-    
+
     if args.restore_from == RESTORE_FROM:
         start_iter = 0
+        model = rf_lw101(num_classes=args.num_classes)
+
     else:
         # Load checkpoint with CPU support
         restore = torch.load(args.restore_from, map_location=device)
+        model = rf_lw101(num_classes=args.num_classes)
 
         # Handle different checkpoint formats
         if isinstance(restore, dict) and 'state_dict' in restore:
-            # Checkpoint saved as {'state_dict': ..., 'fogpass1_state_dict': ..., etc}
             model.load_state_dict(restore['state_dict'])
-            
-            # Load FogPassFilter weights if available
-            if 'fogpass1_state_dict' in restore:
-                FogPassFilter1.load_state_dict(restore['fogpass1_state_dict'])
-                print("✓ Loaded FogPassFilter1")
-            if 'fogpass2_state_dict' in restore:
-                FogPassFilter2.load_state_dict(restore['fogpass2_state_dict'])
-                print("✓ Loaded FogPassFilter2")
         elif isinstance(restore, dict):
-            # Checkpoint is already a state_dict
             model.load_state_dict(restore)
         else:
-            # Unknown format
-            print(f"Warning: Unknown checkpoint format. Keys: {restore.keys() if isinstance(restore, dict) else 'not a dict'}")
+            print(f"Warning: Unknown checkpoint format")
             model.load_state_dict(restore)
         start_iter = 0
 
@@ -93,13 +82,8 @@ def eval():
     
     model.eval()
     model.to(device)
-    
-    # Move FogPassFilter to device
-    FogPassFilter1.to(device)
-    FogPassFilter2.to(device)
-    FogPassFilter1.eval()
-    FogPassFilter2.eval()
 
+    print("Evaluation on Foggy Zurich")
     testloader1 = data.DataLoader(foggyzurichDataSet(args.data_dir_eval, args.data_list_eval, crop_size=(1152, 648), mean=IMG_MEAN),
                                     batch_size=1, shuffle=False, pin_memory=True)
     testloader2 = data.DataLoader(foggyzurichDataSet(args.data_dir_eval, args.data_list_eval, crop_size=(1536, 864), mean=IMG_MEAN),
@@ -148,7 +132,7 @@ def eval():
         output_col.save('%s/%s_color.png' % (save_dir_fz, name[:-4]))
     miou_fz = compute_mIoU(args.gt_dir_fz, save_dir_fz, args.devkit_dir_fz, 'FZ')
 
-
+    print("Evaluation on Foggy Driving Dense")
     testloader1 = data.DataLoader(foggydrivingDataSet(args.data_dir_eval_fd, args.data_list_eval_fdd, scale=1),
                                     batch_size=1, shuffle=False, pin_memory=True)
 
@@ -191,9 +175,9 @@ def eval():
         name = name[0].split('/')[-1]
         output.save('%s/%s' % (save_dir_fdd, name))
         output_col.save('%s/%s_color.png' % (save_dir_fdd, name[:-4]))
-    miou_fdd = compute_mIoU(args.gt_dir_fd, save_dir_fdd, args.devkit_dir_fd, 'FDD')
+    miou_fdd = compute_mIoU(args.gt_dir_fd, save_dir_fdd, args.devkit_dir_fdd, 'FDD')
 
-
+    print("Evaluation on Foggy Driving")
     testloader1 = data.DataLoader(foggydrivingDataSet(args.data_dir_eval_fd, args.data_list_eval_fd, scale=1),
                                     batch_size=1, shuffle=False, pin_memory=True) 
 
@@ -239,7 +223,7 @@ def eval():
         output_col.save('%s/%s_color.png' % (save_dir_fd, name[:-4]))
     miou_fd = compute_mIoU(args.gt_dir_fd, save_dir_fd, args.devkit_dir_fd, 'FD')
 
-
+    print("Evaluation on Cityscapes Lindau")
     testloader1 = data.DataLoader(cityscapesDataSet(args.data_dir_city, args.data_city_list, crop_size = (2048, 1024), mean=IMG_MEAN, scale=False, mirror=False, set=args.set),
                             batch_size=1, shuffle=False, pin_memory=True)
     testloader2 = data.DataLoader(cityscapesDataSet(args.data_dir_city, args.data_city_list, crop_size = (2048*0.8, 1024*0.8), mean=IMG_MEAN, scale=False, mirror=False, set=args.set),
