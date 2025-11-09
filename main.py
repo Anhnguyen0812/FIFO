@@ -232,10 +232,11 @@ def main():
             images_cw = Variable(cw_image).cuda(args.gpu)
             feature_cw0, feature_cw1, feature_cw2, feature_cw3, feature_cw4, feature_cw5 = model(images_cw)
 
+            # Detach features when training FogPassFilter (model is frozen anyway)
             fsm_weights = {'layer0':0.5, 'layer1':0.5}
-            sf_features = {'layer0':feature_sf0, 'layer1':feature_sf1}                
-            cw_features = {'layer0':feature_cw0, 'layer1':feature_cw1}
-            rf_features = {'layer0':feature_rf0, 'layer1':feature_rf1}
+            sf_features = {'layer0':feature_sf0.detach(), 'layer1':feature_sf1.detach()}                
+            cw_features = {'layer0':feature_cw0.detach(), 'layer1':feature_cw1.detach()}
+            rf_features = {'layer0':feature_rf0.detach(), 'layer1':feature_rf1.detach()}
 
             total_fpf_loss = 0
 
@@ -295,6 +296,14 @@ def main():
                 wandb.log({f'layer{idx}/total fpf loss': total_fpf_loss}, step=i_iter)
 
             total_fpf_loss.backward(retain_graph=False)
+            
+            # Clear intermediate gradients and free memory
+            del total_fpf_loss, fog_pass_filter_loss, fog_factor_embeddings
+            if 'fog_factor_sf' in locals():
+                del fog_factor_sf, fog_factor_cw, fog_factor_rf
+            if 'sf_gram' in locals():
+                del sf_gram, cw_gram, rf_gram
+            torch.cuda.empty_cache()
 
 
             if args.modeltrain=='train':
@@ -412,6 +421,12 @@ def main():
                 loss = loss_seg_sf + loss_seg_cw + args.lambda_fsm*loss_fsm + args.lambda_con*loss_con  
                 loss = loss / args.iter_size
                 loss.backward()
+                
+                # Clear intermediate variables to free memory
+                if loss_fsm != 0:
+                    del fog_factor_a, fog_factor_b, vector_a_gram, vector_b_gram
+                    del a_gram, b_gram
+                torch.cuda.empty_cache()
 
                 if loss_seg_cw != 0:
                     loss_seg_cw_value += loss_seg_cw.data.cpu().numpy() / args.iter_size
@@ -427,10 +442,16 @@ def main():
                 wandb.log({'SF_loss_seg': loss_seg_sf_value}, step=i_iter)
                 wandb.log({'CW_loss_seg': loss_seg_cw_value}, step=i_iter)
                 wandb.log({'consistency loss':args.lambda_con*loss_con_value}, step=i_iter)
-                wandb.log({'total_loss': loss}, step=i_iter)           
+                wandb.log({'total_loss': loss}, step=i_iter)
+                
+                # Gradient clipping to prevent explosion
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
                 for opt in opts:
                     opt.step()
+                    
+                # Clear loss variables
+                del loss, loss_seg_sf, loss_seg_cw, loss_fsm, loss_con
 
             FogPassFilter1_optimizer.step()
             FogPassFilter2_optimizer.step()

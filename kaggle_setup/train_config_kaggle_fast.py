@@ -7,8 +7,8 @@ import numpy as np
 
 IMG_MEAN = np.array((104.00698793, 116.66876762, 122.67891434), dtype=np.float32)
 BETA = 0.005
-BATCH_SIZE = 4  # Single GPU (P100 or T4)
-ITER_SIZE = 1
+BATCH_SIZE = 2  # Reduced from 4 to save GPU memory for Stage 2
+ITER_SIZE = 2  # Accumulate gradients over 2 iterations to compensate
 NUM_WORKERS = 4
 
 # Kaggle paths
@@ -18,12 +18,12 @@ KAGGLE_DATA_ROOT = '/kaggle/input/cityscapes-filtered-fog'
 DATA_DIRECTORY = KAGGLE_DATA_ROOT
 DATA_LIST_PATH = f'./dataset/cityscapes_list/train_foggy_{BETA}.txt'
 DATA_CITY_PATH = './dataset/cityscapes_list/clear_lindau.txt'
-INPUT_SIZE = '2048,1024'
+INPUT_SIZE = '1280,640'  # Reduced from 2048,1024 to save memory
 DATA_DIRECTORY_CWSF = f'{KAGGLE_DATA_ROOT}/leftImg8bit_filtered/leftImg8bit_data'
 DATA_LIST_PATH_CWSF = './dataset/cityscapes_list/train_origin.txt'
 DATA_LIST_RF = './lists_file_names/realfog_all_filenames.txt'  # Use generated file without RGB/ prefix
 DATA_DIR = KAGGLE_DATA_ROOT
-INPUT_SIZE_RF = '1920,1080'
+INPUT_SIZE_RF = '1200,675'  # Reduced from 1920,1080 to save memory
 NUM_CLASSES = 19 
 
 # Training params - FAST MODE (2 hours @ 1.47 it/s = ~10,600 steps)

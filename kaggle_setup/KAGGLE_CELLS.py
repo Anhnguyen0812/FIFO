@@ -62,7 +62,10 @@ print("=" * 70)
     --restore-from-fogpass './snapshots/FIFO_model10000.pth' \
     --num-steps 20000 \
     --num-steps-stop 20000 \
-    --batch-size 4 \
+    --batch-size 2 \
+    --iter-size 2 \
+    --input-size '1280,640' \
+    --input-size-rf '1200,675' \
     --save-pred-every 2000 \
     --snapshot-dir './snapshots/' \
     --gpu 0
