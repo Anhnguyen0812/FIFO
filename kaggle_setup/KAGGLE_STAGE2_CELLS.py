@@ -31,7 +31,8 @@ print("\n📋 Cityscapes lists:")
 !ls -lh dataset/cityscapes_list/*.txt | grep train
 
 print("\n📋 Real fog list:")
-!ls -lh realfog_all_filenames.txt
+!ls -lh lists_file_names/realfog_all_filenames.txt
+!wc -l lists_file_names/realfog_all_filenames.txt
 
 print("\n✅ Dataset lists generated!")
 
