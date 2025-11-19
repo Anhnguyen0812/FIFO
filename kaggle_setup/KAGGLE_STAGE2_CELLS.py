@@ -37,6 +37,49 @@ print("\n📋 Real fog list:")
 print("\n✅ Dataset lists generated!")
 
 # ============================================================================
+# CELL 2.5: Verify Dataset Paths & Structure
+# ============================================================================
+print("=" * 70)
+print("VERIFYING DATASET PATHS")
+print("=" * 70)
+
+# Check Kaggle input structure
+print("\n📁 Kaggle input structure:")
+!ls -lh /kaggle/input/cityscapes-filtered-fog/
+
+print("\n📁 Foggy images directory:")
+!ls -lh /kaggle/input/cityscapes-filtered-fog/leftImg8bit_filtered/ | head -10
+
+print("\n📁 Clear images directory:")
+!ls -lh /kaggle/input/cityscapes-filtered-fog/leftImg8bit_filtered/leftImg8bit_data/ | head -10
+
+print("\n📝 Sample from train_foggy_0.005.txt (first 3 lines):")
+!head -3 dataset/cityscapes_list/train_foggy_0.005.txt
+
+print("\n📝 Sample from train_origin.txt (first 3 lines):")
+!head -3 dataset/cityscapes_list/train_origin.txt
+
+# Test if first image file exists
+print("\n🔍 Testing if first image exists:")
+import os
+first_foggy = !head -1 dataset/cityscapes_list/train_foggy_0.005.txt
+first_foggy = first_foggy[0].strip()
+print(f"First foggy image: {first_foggy}")
+
+# Try different path combinations
+test_paths = [
+    f"/kaggle/input/cityscapes-filtered-fog/{first_foggy}",
+    f"/kaggle/input/cityscapes-filtered-fog/leftImg8bit_filtered/{first_foggy}",
+    f"/kaggle/input/cityscapes-filtered-fog/leftImg8bit_filtered/leftImg8bit_foggy_trainvaltest/{first_foggy}",
+]
+
+for path in test_paths:
+    exists = os.path.exists(path)
+    print(f"{'✅' if exists else '❌'} {path}")
+
+print("\n✅ Path verification completed!")
+
+# ============================================================================
 # CELL 3: Verify FogPassFilter Pretrained Model
 # ============================================================================
 import torch
@@ -88,21 +131,27 @@ print("Memory Usage: ~14-15GB VRAM")
 print("=" * 70)
 
 !python main.py \
-    --file-name 'FIFO_stage2' \
-    --modeltrain train \
-    --restore-from without_pretraining \
-    --restore-from-fogpass /kaggle/input/fogpass-pretrained/FogPassFilter_pretrained.pth \
-    --num-steps 15000 \
-    --num-steps-stop 15000 \
-    --batch-size 1 \
-    --iter-size 4 \
-    --input-size '2048,1024' \
-    --input-size-rf '1920,1080' \
-    --save-pred-every 1000 \
-    --snapshot-dir '/kaggle/working/snapshots_stage2' \
-    --lambda-fsm 0.0000001 \
-    --lambda-con 0.0001 \
-    --gpu 0
+--file-name 'FIFO_stage2' \
+--modeltrain train \
+--restore-from without_pretraining \
+--restore-from-fogpass /kaggle/input/fogpass-pretrained/FogPassFilter_pretrained.pth \
+--num-steps 15000 \
+--num-steps-stop 15000 \
+--batch-size 1 \
+--iter-size 4 \
+--input-size '2048,1024' \
+--input-size-rf '1920,1080' \
+--data-dir '/kaggle/input/cityscapes-filtered-fog/foggy_filtered/foggy_data/leftImg8bit_foggy' \
+--data-dir-rf '/kaggle/input/cityscapes-filtered-fog/realfog_filtered_2gb' \
+--data-list './dataset/cityscapes_list/train_foggy_0.005.txt' \
+--data-list-rf './lists_file_names/realfog_all_filenames.txt' \
+--data-list-cwsf './dataset/cityscapes_list/train_origin.txt' \
+--data-dir-cwsf '/kaggle/input/cityscapes-filtered-fog/leftImg8bit_filtered/leftImg8bit_data/leftImg8bit' \
+--save-pred-every 1000 \
+--snapshot-dir '/kaggle/working/snapshots_stage2' \
+--lambda-fsm 0.0000001 \
+--lambda-con 0.0001 \
+--gpu 0
 
 print("\n" + "=" * 70)
 print("✅ STAGE 2 TRAINING COMPLETED!")
