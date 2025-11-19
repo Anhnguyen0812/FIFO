@@ -170,6 +170,9 @@ def main():
 
     w_r, h_r = map(int, args.input_size_rf.split(','))
     input_size_rf = (w_r, h_r)
+    
+    print(f"Training with input_size: {input_size} (W x H)")
+    print(f"Real fog input_size: {input_size_rf} (W x H)")
 
     cudnn.enabled = True
     gpu = args.gpu
@@ -225,6 +228,7 @@ def main():
         Pairedcityscapes(
             args.data_dir, args.data_dir_cwsf, args.data_list, args.data_list_cwsf,
             max_iters=args.num_steps * args.iter_size * args.batch_size,
+            crop_size=input_size,
             mean=IMG_MEAN, set=args.set
         ),
         batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers,
@@ -235,6 +239,7 @@ def main():
         foggyzurichDataSet(
             args.data_dir_rf, args.data_list_rf,
             max_iters=args.num_steps * args.iter_size * args.batch_size,
+            crop_size=input_size_rf,
             mean=IMG_MEAN, set=args.set
         ),
         batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers,
@@ -245,6 +250,7 @@ def main():
         Pairedcityscapes(
             args.data_dir, args.data_dir_cwsf, args.data_list, args.data_list_cwsf,
             max_iters=args.num_steps * args.iter_size * args.batch_size,
+            crop_size=input_size,
             mean=IMG_MEAN, set=args.set
         ),
         batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers,
@@ -255,6 +261,7 @@ def main():
         foggyzurichDataSet(
             args.data_dir_rf, args.data_list_rf,
             max_iters=args.num_steps * args.iter_size * args.batch_size,
+            crop_size=input_size_rf,
             mean=IMG_MEAN, set=args.set
         ),
         batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers,

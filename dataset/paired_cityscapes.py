@@ -34,13 +34,14 @@ class Pairedcityscapes(data.Dataset):
         [119, 11, 32],
     ]
 
-    def __init__(self, src_root, trg_root, src_list_path, trg_list_path, max_iters=None, mean=(128, 128, 128), ignore_label=255, set='val'):
+    def __init__(self, src_root, trg_root, src_list_path, trg_list_path, max_iters=None, crop_size=(2048, 1024), mean=(128, 128, 128), ignore_label=255, set='val'):
         self.src_root = src_root
         self.trg_root = trg_root
         self.src_list_path = src_list_path
         self.trg_list_path = trg_list_path
         self.ignore_label = ignore_label
         self.mean = mean
+        self.crop_size = crop_size  # (width, height)
         self.img_ids = [i_id.strip() for i_id in open(src_list_path)]
         if not max_iters==None:
             self.img_ids = self.img_ids * int(np.ceil(float(max_iters) / len(self.img_ids)))
@@ -122,8 +123,9 @@ class Pairedcityscapes(data.Dataset):
         w, h = src_image.size
         src_image, trg_image, label = self._apply_transform(src_image, trg_image, label, scale=0.8)
 
-        crop_size = min(600, min(src_image.size[:2]))
-        i, j, h, w = transforms.RandomCrop.get_params(src_image, output_size=(crop_size,crop_size)) 
+        # Use crop_size from args (width, height)
+        crop_w, crop_h = self.crop_size
+        i, j, h, w = transforms.RandomCrop.get_params(src_image, output_size=(crop_h, crop_w)) 
         src_image = TF.crop(src_image, i, j, h, w) 
         trg_image = TF.crop(trg_image, i, j, h, w) 
         label = TF.crop(label, i, j, h, w)

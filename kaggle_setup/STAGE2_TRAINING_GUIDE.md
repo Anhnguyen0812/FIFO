@@ -1,104 +1,89 @@
-# STAGE 2 TRAINING GUIDE - Using Pretrained FogPassFilter
+# 🚀 HƯỚNG DẪN TRAIN STAGE 2 TRÊN KAGGLE
 # =========================================================
-# Hướng dẫn train Stage 2 của FIFO trên Kaggle
-# Sử dụng FogPassFilter_pretrained.pth để bỏ qua Stage 1
-# Giữ nguyên input size gốc (2048x1024) để đạt chất lượng tối đa
+# Train FIFO Stage 2 với pretrained FogPassFilter
+# Input size: 2048×1024 (chất lượng gốc)
+# Thời gian: ~5-6 giờ trên Kaggle P100/T4
+# mIoU mong đợi: 40-45%
 # =========================================================
 
 ## 📋 MỤC LỤC
 
-1. [Tổng quan](#tổng-quan)
-2. [Yêu cầu và chuẩn bị](#yêu-cầu-và-chuẩn-bị)
-3. [Các bước thực hiện](#các-bước-thực-hiện)
-4. [Giải thích cấu hình](#giải-thích-cấu-hình)
-5. [Kết quả mong đợi](#kết-quả-mong-đợi)
-6. [Xử lý lỗi](#xử-lý-lỗi)
-7. [Đánh giá model](#đánh-giá-model)
+1. [Yêu cầu](#yêu-cầu)
+2. [Upload datasets lên Kaggle](#upload-datasets)
+3. [Tạo Kaggle Notebook](#tạo-kaggle-notebook)
+4. [Chạy từng cell](#chạy-từng-cell)
+5. [Giải thích cấu hình](#giải-thích-cấu-hình)
+6. [Troubleshooting](#troubleshooting)
+7. [Download & Evaluation](#download--evaluation)
 
 ---
 
-## 🎯 TỔNG QUAN
+## 🎯 YÊU CẦU
 
-### Stage 2 là gì?
-- **Stage 1**: Train FogPassFilter (module học đặc trưng fog) - **ĐÃ HOÀN THÀNH** trong `FogPassFilter_pretrained.pth`
-- **Stage 2**: Train toàn bộ model (segmentation network + FogPassFilter) - **CẦN TRAIN**
+### Tài khoản Kaggle
+- ✅ Đăng ký miễn phí: https://www.kaggle.com
+- ✅ Verify phone number (để dùng GPU)
+- ✅ Giới hạn: 30 giờ GPU/tuần
 
-### Tại sao sử dụng pretrained FogPassFilter?
-✅ **Tiết kiệm thời gian**: Bỏ qua Stage 1 (~2 giờ)  
-✅ **FogPassFilter đã học tốt**: Trained 5000 iterations, hiểu được fog patterns  
-✅ **Chỉ cần train segmentation**: Focus vào semantic segmentation task  
-
-### So sánh với training đầy đủ:
-
-| Phương pháp | Stage 1 | Stage 2 | Tổng thời gian | mIoU mong đợi |
-|-------------|---------|---------|----------------|---------------|
-| **Full training** | 10K steps<br>(~2h) | 15K steps<br>(~5-6h) | **~7-8h** | 40-45% |
-| **Pretrained** (guide này) | ❌ Skip<br>(đã có) | 15K steps<br>(~5-6h) | **~5-6h** | 40-45% |
+### Files cần có
+1. **FogPassFilter_pretrained.pth** (527 MB) - pretrained FogPassFilter
+2. **cityscapes-filtered-fog dataset** - bao gồm:
+   - Foggy images (train: 708, val: 500)
+   - Clear images (train: 708, val: 500)
+   - Real fog images (837 ảnh)
 
 ---
 
-## 📦 YÊU CẦU VÀ CHUẨN BỊ
+## � UPLOAD DATASETS
 
-### 1. Tài khoản Kaggle
-- Đăng ký miễn phí tại: https://www.kaggle.com
-- Verify phone number để dùng GPU
-- Giới hạn: 30 giờ GPU/tuần (đủ cho 5-6 giờ training)
+### Dataset 1: Cityscapes Filtered Fog
 
-### 2. Upload datasets lên Kaggle
-
-#### Dataset 1: Cityscapes Filtered Fog
-```bash
-# Trên máy local, tạo folder chứa data
-mkdir cityscapes-filtered-fog
-cp -r leftImg8bit_filtered cityscapes-filtered-fog/
-cp -r gtFine cityscapes-filtered-fog/
-cp -r Foggy_Zurich cityscapes-filtered-fog/
-
-# Nén lại (optional, để upload nhanh hơn)
-tar -czf cityscapes-filtered-fog.tar.gz cityscapes-filtered-fog/
+**Cấu trúc cần có:**
+```
+cityscapes-filtered-fog/
+├── foggy_filtered/foggy_data/leftImg8bit_foggy/  # Foggy images
+├── leftImg8bit_filtered/leftImg8bit_data/leftImg8bit/  # Clear images  
+├── gtFine_filtered/gtFine_data/gtFine/  # Labels
+└── realfog_filtered_2gb/RGB/  # Real fog (Foggy Zurich)
 ```
 
-**Upload lên Kaggle:**
+**Upload:**
+1. Vào https://www.kaggle.com/datasets
+2. Click "New Dataset" → Upload folder hoặc zip
+3. Đặt tên: `cityscapes-filtered-fog`
+4. Visibility: Private → Create
+
+### Dataset 2: FogPassFilter Pretrained
+
+**Upload:**
 1. Vào https://www.kaggle.com/datasets
 2. Click "New Dataset"
-3. Upload `cityscapes-filtered-fog.tar.gz` hoặc folder
-4. Đặt tên: `cityscapes-filtered-fog`
-5. Visibility: Private
-6. Click "Create"
-
-#### Dataset 2: FogPassFilter Pretrained
-```bash
-# File cần upload: FogPassFilter_pretrained.pth (527 MB)
-```
-
-**Upload lên Kaggle:**
-1. Vào https://www.kaggle.com/datasets
-2. Click "New Dataset"
-3. Upload file `FogPassFilter_pretrained.pth`
+3. Upload file: `FogPassFilter_pretrained.pth` (527 MB)
 4. Đặt tên: `fogpass-pretrained`
-5. Visibility: Private
-6. Click "Create"
-
-### 3. Tạo Kaggle Notebook
-
-1. Vào https://www.kaggle.com/code
-2. Click "New Notebook"
-3. Settings (bên phải):
-   - **Accelerator**: GPU P100 (hoặc GPU T4)
-   - **Internet**: ON (để clone repo)
-   - **Persistence**: Files only
-
-4. Add Data:
-   - Click "+ Add Data" (góc phải)
-   - Search "cityscapes-filtered-fog" → Add
-   - Search "fogpass-pretrained" → Add
-   - Data sẽ mount tại `/kaggle/input/`
+5. Visibility: Private → Create
 
 ---
 
-## 🚀 CÁC BƯỚC THỰC HIỆN
+## 📓 TẠO KAGGLE NOTEBOOK
 
-### Bước 1: Setup Environment
+1. Vào https://www.kaggle.com/code → Click "New Notebook"
+2. **Settings** (góc phải):
+   - Accelerator: **GPU P100** hoặc **GPU T4**
+   - Internet: **ON**
+   - Persistence: **Files only**
+3. **Add Data** (góc phải):
+   - Search `cityscapes-filtered-fog` → Add
+   - Search `fogpass-pretrained` → Add
+
+---
+
+---
+
+## 🚀 CHẠY TỪNG CELL
+
+Copy từng cell từ file `KAGGLE_STAGE2_CELLS.py` vào Kaggle notebook.
+
+### 📌 CELL 1: Clone Repository
 
 Copy Cell 1 từ file `KAGGLE_STAGE2_CELLS.py`:
 
