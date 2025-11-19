@@ -18,7 +18,6 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb_checkpoints
-
 # Result and output folders
 result_Clindau/
 result_FD/

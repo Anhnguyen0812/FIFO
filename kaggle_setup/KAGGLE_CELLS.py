@@ -60,13 +60,13 @@ print("=" * 70)
     --modeltrain train \
     --restore-from './snapshots/FIFO_model10000.pth' \
     --restore-from-fogpass './snapshots/FIFO_model10000.pth' \
-    --num-steps 20000 \
-    --num-steps-stop 20000 \
-    --batch-size 4 \
-    --iter-size 1 \
-    --input-size '960,480' \
-    --input-size-rf '900,506' \
-    --save-pred-every 2000 \
+    --num-steps 15000 \
+    --num-steps-stop 15000 \
+    --batch-size 2 \
+    --iter-size 2 \
+    --input-size '640,320' \
+    --input-size-rf '600,337' \
+    --save-pred-every 1000 \
     --snapshot-dir './snapshots/' \
     --gpu 0
 

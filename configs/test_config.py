@@ -42,6 +42,7 @@ def get_arguments():
     parser.add_argument("--gt-dir-fd", type=str, default=GT_DIR_FD)
     parser.add_argument("--gt-dir-clindau", type=str, default=GT_DIR_CLINDAU)
     parser.add_argument("--devkit-dir-fz", default='/home/anhngp/data1/Foggy_Zurich/lists_file_names') 
-    parser.add_argument("--devkit-dir-fd", default='./lists_file_names') 
+    parser.add_argument("--devkit-dir-fd", default='./lists_file_names')
+    parser.add_argument("--devkit-dir-fdd", default='./lists_file_names')  # Same as FD
     parser.add_argument("--devkit-dir-clindau", default='./dataset/cityscapes_list')
     return parser.parse_args()
